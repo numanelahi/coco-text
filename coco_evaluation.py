@@ -229,7 +229,7 @@ def inter(list1, list2):
 	return list(set(list1).intersection(set(list2)))
 
 def printDetailedResults(c_text, detection_results, transcription_results, name):
-	print name
+	print(name)
 	#detected coco-text annids
 	found = [x['gt_id'] for x in detection_results['true_positives']]
 	n_found = [x['gt_id'] for x in detection_results['false_negatives']]
@@ -245,45 +245,45 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 	ileg_ot = c_text.getAnnIds(imgIds=[], catIds=[('legibility','illegible'),('class','others')], areaRng=[])
 
 	#Detection 
-	print 
-	print "Detection"
-	print "Recall"
+	print()
+	print("Detection")
+	print("Recall")
 
 	if (len(inter(found+n_found, leg_mp)))>0:
 		lm = "%.2f"%(100*len(inter(found, leg_mp))*1.0/(len(inter(found+n_found, leg_mp))))
 	else:
 		lm = 0
-	print 'legible & machine printed: ', lm 
+	print('legible & machine printed: ', lm)
 
 	if (len(inter(found+n_found, leg_hw)))>0:
 		lh = "%.2f"%(100*len(inter(found, leg_hw))*1.0/(len(inter(found+n_found, leg_hw))))
 	else:
 		lh = 0
-	print 'legible & handwritten: ', lh 
+	print('legible & handwritten: ', lh)
 
 	if (len(inter(found+n_found, leg_ot)))>0:
 		lo = "%.2f"%(100*len(inter(found, leg_ot))*1.0/(len(inter(found+n_found, leg_ot))))
 	else:
 		lo = 0
-	# print 'legible & others: ', lo
+	# print('legible & others: ', lo)
 
 	if (len(inter(found+n_found, leg_mp+leg_hw)))>0:
 		lto = "%.2f"%(100*len(inter(found, leg_mp+leg_hw))*1.0/(len(inter(found+n_found, leg_mp+leg_hw))))
 	else:
 		lto = 0
-	print 'legible overall: ', lto  
+	print('legible overall: ', lto)
 
 	if (len(inter(found+n_found, ileg_mp)))>0:
 		ilm = "%.2f"%(100*len(inter(found, ileg_mp))*1.0/(len(inter(found+n_found, ileg_mp))))
 	else:
 		ilm = 0
-	print 'illegible & machine printed: ', ilm 
+	print('illegible & machine printed: ', ilm)
 
 	if (len(inter(found+n_found, ileg_hw)))>0:
 		ilh = "%.2f"%(100*len(inter(found, ileg_hw))*1.0/(len(inter(found+n_found, ileg_hw))))
 	else:
 		ilh = 0
-	print 'illegible & handwritten: ', ilh 
+	print('illegible & handwritten: ', ilh)
 
 	if (len(inter(found+n_found, ileg_ot)))>0:
 		ilo = "%.2f"%(100*len(inter(found, ileg_ot))*1.0/(len(inter(found+n_found, ileg_ot))))
@@ -295,33 +295,33 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 		ilto = "%.2f"%(100*len(inter(found, ileg_mp+ileg_hw))*1.0/(len(inter(found+n_found, ileg_mp+ileg_hw))))
 	else:
 		ilto = 0
-	print 'illegible overall: ', ilto 
+	print('illegible overall: ', ilto)
 
 	#total = "%.1f"%(100*len(found)*1.0/(len(found)+len(n_found)))
 	t_recall = 100*len(found)*1.0/(len(inter(found+n_found, leg_mp+leg_hw+ileg_mp+ileg_hw)))
 	total = "%.1f"%(t_recall)
-	print 'total recall: ', total
+	print('total recall: ', total)
 
-	print "Precision"
+	print("Precision")
 
 	t_precision = 100*len(found)*1.0/(len(found+fp))
 	precision = "%.2f"%(t_precision)
-	print 'total precision: ', precision
+	print('total precision: ', precision)
 
-	print "f-score"
+	print("f-score")
 
 	f_score = "%.2f"%(2 * t_recall * t_precision / (t_recall + t_precision)) if (t_recall + t_precision)>0 else 0
-	print 'f-score localization: ', f_score
+	print('f-score localization: ', f_score)
 
-	print 
-	print "Transcription"
+	print()
+	print("Transcription")
 	transAcc = "%.2f"%(100*transcription_results['exact']['accuracy'])
 	transAcc1 = "%.2f"%(100*transcription_results['distance1']['accuracy'])
-	print 'accuracy for exact matches: ', transAcc
-	print 'accuracy for matches with edit distance<=1: ', transAcc1
+	print('accuracy for exact matches: ', transAcc)
+	print('accuracy for matches with edit distance<=1: ', transAcc1)
 
-	print
-	print 'End-to-end'
+	print()
+	print('End-to-end')
 	TP_new = len(inter(found, leg_eng_mp+leg_eng_hw)) * transcription_results['exact']['accuracy']
 	FP_new = len(fp) + len(inter(found, leg_eng_mp+leg_eng_hw))*(1-transcription_results['exact']['accuracy'])
 	FN_new = len(inter(n_found, leg_eng_mp+leg_eng_hw)) + len(inter(found, leg_eng_mp+leg_eng_hw))*(1-transcription_results['exact']['accuracy'])
@@ -331,14 +331,14 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 
 	recall_new = "%.2f"%(t_recall_new)
 	precision_new = "%.2f"%(t_precision_new)
-	print 'recall: ', recall_new, 
-	print 'precision: ', precision_new
-	print 'End-to-end f-score: ', fscore
+	print('recall: ', recall_new)
+	print('precision: ', precision_new)
+	print('End-to-end f-score: ', fscore)
 
-	print
+	print()
    	#print lm, ' & ', lh, ' & ', lto, ' & ', ilm,  ' & ', ilh, ' & ', ilto, '&', total,  ' & ', precision,  ' & ', transAcc,  ' & ', transAcc1, ' & ', fscore  	
-   	print lm, ' & ', lh, ' & ', ilm,  ' & ', ilh, '&', total,  ' & ', precision,  ' & ', f_score,  ' & ', transAcc,  ' & ', recall_new,  ' & ', precision_new,  ' & ', fscore
-   	print
+   	print(lm, ' & ', lh, ' & ', ilm,  ' & ', ilh, '&', total,  ' & ', precision,  ' & ', f_score,  ' & ', transAcc,  ' & ', recall_new,  ' & ', precision_new,  ' & ', fscore)
+   	print()
 
 
 
