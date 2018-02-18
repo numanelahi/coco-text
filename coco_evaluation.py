@@ -245,7 +245,7 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 	ileg_ot = c_text.getAnnIds(imgIds=[], catIds=[('legibility','illegible'),('class','others')], areaRng=[])
 
 	#Detection 
-	print()
+	#print()
 	print("Detection")
 	print("Recall")
 
@@ -313,14 +313,14 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 	f_score = "%.2f"%(2 * t_recall * t_precision / (t_recall + t_precision)) if (t_recall + t_precision)>0 else 0
 	print('f-score localization: ', f_score)
 
-	print()
+	#print()
 	print("Transcription")
 	transAcc = "%.2f"%(100*transcription_results['exact']['accuracy'])
 	transAcc1 = "%.2f"%(100*transcription_results['distance1']['accuracy'])
 	print('accuracy for exact matches: ', transAcc)
 	print('accuracy for matches with edit distance<=1: ', transAcc1)
 
-	print()
+	#print()
 	print('End-to-end')
 	TP_new = len(inter(found, leg_eng_mp+leg_eng_hw)) * transcription_results['exact']['accuracy']
 	FP_new = len(fp) + len(inter(found, leg_eng_mp+leg_eng_hw))*(1-transcription_results['exact']['accuracy'])
@@ -335,10 +335,10 @@ def printDetailedResults(c_text, detection_results, transcription_results, name)
 	print('precision: ', precision_new)
 	print('End-to-end f-score: ', fscore)
 
-	print()
+	#print()
    	#print lm, ' & ', lh, ' & ', lto, ' & ', ilm,  ' & ', ilh, ' & ', ilto, '&', total,  ' & ', precision,  ' & ', transAcc,  ' & ', transAcc1, ' & ', fscore  	
-   	print(lm, ' & ', lh, ' & ', ilm,  ' & ', ilh, '&', total,  ' & ', precision,  ' & ', f_score,  ' & ', transAcc,  ' & ', recall_new,  ' & ', precision_new,  ' & ', fscore)
-   	print()
+   	#print(lm, ' & ', lh, ' & ', ilm,  ' & ', ilh, '&', total,  ' & ', precision,  ' & ', f_score,  ' & ', transAcc,  ' & ', recall_new,  ' & ', precision_new,  ' & ', fscore)
+   	#print()
 
 
 
